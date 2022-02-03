@@ -132,14 +132,31 @@ void ToolPathEditorWidget::onAddPressed()
   QString key = QInputDialog::getText(this, "Add New", "Name", QLineEdit::Normal, "", &ok);
   if (ok && !key.isEmpty())
   {
+    // DEFAULT VALUES
     opp_msgs::ToolPath val;
     val.params.config.surface_walk_generator.raster_spacing = 0.2;
     val.params.config.surface_walk_generator.point_spacing = 0.1;
     val.params.config.surface_walk_generator.min_hole_size = 0.2;
     val.params.config.surface_walk_generator.min_segment_size = 0.5;
-    val.params.config.surface_walk_generator.intersection_plane_height = 0.05;
+    val.params.config.surface_walk_generator.intersection_plane_height = 0.0;
     val.params.curvature_threshold = 0.050;
     val.params.min_polygons_per_cluster = 500;
+
+    val.params.config.plane_slicer_generator.raster_spacing = 0.2;
+    val.params.config.plane_slicer_generator.point_spacing = 0.1;
+    val.params.config.plane_slicer_generator.tool_offset = 0.0;
+    val.params.config.plane_slicer_generator.min_hole_size = 0.1;
+    val.params.config.plane_slicer_generator.min_segment_size = 0.1;
+    val.params.config.plane_slicer_generator.raster_rot_offset = 0.0;
+    val.params.config.plane_slicer_generator.search_radius = 0.01;
+    val.params.config.plane_slicer_generator.raster_direction.x = 0.0;
+    val.params.config.plane_slicer_generator.raster_direction.y = 0.0;
+    val.params.config.plane_slicer_generator.raster_direction.z = 0.0;
+    val.params.config.plane_slicer_generator.interleave_rasters = false;
+    val.params.config.plane_slicer_generator.smooth_rasters = true;
+    val.params.config.plane_slicer_generator.generate_extra_rasters = false;
+    val.params.config.plane_slicer_generator.raster_wrt_global_axes = false;
+    val.params.config.plane_slicer_generator.raster_style = noether_msgs::ToolPathConfig::READ_RASTER_STYLE;
 
     val.process_type.val = opp_msgs::ProcessType::NONE;
 

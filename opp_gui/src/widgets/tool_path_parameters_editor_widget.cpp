@@ -61,6 +61,9 @@ ToolPathParametersEditorWidget::ToolPathParametersEditorWidget(ros::NodeHandle& 
   ui_->combo_box_process_type->addItem("Process Paint", QVariant(opp_msgs::ProcessType::PROCESS_PAINT));
   ui_->combo_box_process_type->addItem("Process De-paint", QVariant(opp_msgs::ProcessType::PROCESS_DEPAINT));
 
+  ui_->combo_box_planner_type->addItem("Plane Slicer", QVariant(noether_msgs::ToolPathConfig::PLANE_SLICER_RASTER_GENERATOR));
+  ui_->combo_box_planner_type->addItem("Surface Walk", QVariant(noether_msgs::ToolPathConfig::SURFACE_WALK_RASTER_GENERATOR));
+
   // Connect the button press to the function that calls the toolpath generation action
   connect(ui_->push_button_generate, &QPushButton::clicked, this, &ToolPathParametersEditorWidget::generateToolPath);
   connect(ui_->combo_box_process_type,
@@ -82,13 +85,29 @@ void ToolPathParametersEditorWidget::init(const shape_msgs::Mesh& mesh) { mesh_.
 
 void ToolPathParametersEditorWidget::setToolPathConfig(const noether_msgs::ToolPathConfig& config)
 {
-  ui_->double_spin_box_point_spacing->setValue(config.surface_walk_generator.point_spacing);
-  ui_->double_spin_box_tool_z_offset->setValue(config.surface_walk_generator.tool_offset);
-  ui_->double_spin_box_line_spacing->setValue(config.surface_walk_generator.raster_spacing);
-  ui_->double_spin_box_min_hole_size->setValue(config.surface_walk_generator.min_hole_size);
-  ui_->double_spin_box_min_segment_length->setValue(config.surface_walk_generator.min_segment_size);
+  ui_->double_spin_box_line_spacing->setValue(config.plane_slicer_generator.raster_spacing);
+  ui_->double_spin_box_point_spacing->setValue(config.plane_slicer_generator.point_spacing);
+  ui_->double_spin_box_tool_z_offset->setValue(config.plane_slicer_generator.tool_offset);
+  ui_->double_spin_box_min_hole_size->setValue(config.plane_slicer_generator.min_hole_size);
+  ui_->double_spin_box_min_segment_length->setValue(config.plane_slicer_generator.min_segment_size);
   ui_->double_spin_box_intersecting_plane_height->setValue(config.surface_walk_generator.intersection_plane_height);
-  ui_->double_spin_box_raster_angle->setValue(config.surface_walk_generator.raster_rot_offset * 180.0 / M_PI);
+  ui_->double_spin_box_raster_angle->setValue(config.plane_slicer_generator.raster_rot_offset * 180.0 / M_PI);
+  ui_->double_spin_box_normal_search_radius->setValue(config.plane_slicer_generator.search_radius);
+  ui_->double_spin_box_raster_direction_x->setValue(config.plane_slicer_generator.raster_direction.x);
+  ui_->double_spin_box_raster_direction_y->setValue(config.plane_slicer_generator.raster_direction.y);
+  ui_->double_spin_box_raster_direction_z->setValue(config.plane_slicer_generator.raster_direction.z);
+
+  ui_->checkBox_interleave_rasters->setChecked(config.plane_slicer_generator.interleave_rasters);
+  ui_->checkBox_generate_extra_rasters->setChecked(config.plane_slicer_generator.generate_extra_rasters);
+  ui_->checkBox_raster_wrt_global->setChecked(config.plane_slicer_generator.raster_wrt_global_axes);
+  ui_->checkBox_smooth_rasters->setChecked(config.plane_slicer_generator.smooth_rasters);
+
+  if (config.plane_slicer_generator.raster_style == noether_msgs::ToolPathConfig::MOW_RASTER_STYLE)
+      ui_->radioButton_mow_style->setChecked(true);
+  if (config.plane_slicer_generator.raster_style == noether_msgs::ToolPathConfig::PAINT_RASTER_STYLE)
+      ui_->radioButton_paint_style->setChecked(true);
+  if (config.plane_slicer_generator.raster_style == noether_msgs::ToolPathConfig::READ_RASTER_STYLE)
+      ui_->radioButton_read_style->setChecked(true);
 }
 
 noether_msgs::ToolPathConfig ToolPathParametersEditorWidget::getToolPathConfig() const
@@ -96,8 +115,13 @@ noether_msgs::ToolPathConfig ToolPathParametersEditorWidget::getToolPathConfig()
   noether_msgs::ToolPathConfig config;
 
   // Create a path configuration from the line edit fields
-  config.type = noether_msgs::ToolPathConfig::PLANE_SLICER_RASTER_GENERATOR;  // was SURFACE_WALK_RASTER_GENERATOR;
-
+//  config.type = noether_msgs::ToolPathConfig::PLANE_SLICER_RASTER_GENERATOR;  // was SURFACE_WALK_RASTER_GENERATOR;
+  if (ui_->combo_box_process_type->currentData() == 0)
+      config.type = noether_msgs::ToolPathConfig::PLANE_SLICER_RASTER_GENERATOR;
+  else if (ui_->combo_box_process_type->currentData() == 1)
+      config.type = noether_msgs::ToolPathConfig::SURFACE_WALK_RASTER_GENERATOR;
+  else
+      config.type = noether_msgs::ToolPathConfig::PLANE_SLICER_RASTER_GENERATOR;
   config.surface_walk_generator.point_spacing = ui_->double_spin_box_point_spacing->value();
   config.surface_walk_generator.tool_offset = ui_->double_spin_box_tool_z_offset->value();
   config.surface_walk_generator.raster_spacing = ui_->double_spin_box_line_spacing->value();
@@ -105,6 +129,10 @@ noether_msgs::ToolPathConfig ToolPathParametersEditorWidget::getToolPathConfig()
   config.surface_walk_generator.min_segment_size = ui_->double_spin_box_min_segment_length->value();
   config.surface_walk_generator.intersection_plane_height = ui_->double_spin_box_intersecting_plane_height->value();
   config.surface_walk_generator.raster_rot_offset = ui_->double_spin_box_raster_angle->value() * M_PI / 180.0;
+  config.surface_walk_generator.generate_extra_rasters = ui_->checkBox_generate_extra_rasters->isChecked();
+  config.surface_walk_generator.cut_direction.x = ui_->double_spin_box_raster_direction_x->value();
+  config.surface_walk_generator.cut_direction.y = ui_->double_spin_box_raster_direction_y->value();
+  config.surface_walk_generator.cut_direction.z = ui_->double_spin_box_raster_direction_z->value();
 
   config.plane_slicer_generator.raster_spacing = ui_->double_spin_box_line_spacing->value();
   config.plane_slicer_generator.point_spacing = ui_->double_spin_box_point_spacing->value();
@@ -113,9 +141,14 @@ noether_msgs::ToolPathConfig ToolPathParametersEditorWidget::getToolPathConfig()
   config.plane_slicer_generator.tool_offset = ui_->double_spin_box_tool_z_offset->value();
   config.plane_slicer_generator.raster_rot_offset = ui_->double_spin_box_raster_angle->value() * M_PI / 180.0;
   config.plane_slicer_generator.search_radius = ui_->double_spin_box_normal_search_radius->value();
-  ;
+
+  config.plane_slicer_generator.raster_direction.x = ui_->double_spin_box_raster_direction_x->value();
+  config.plane_slicer_generator.raster_direction.y = ui_->double_spin_box_raster_direction_y->value();
+  config.plane_slicer_generator.raster_direction.z = ui_->double_spin_box_raster_direction_z->value();
+
   config.plane_slicer_generator.interleave_rasters = ui_->checkBox_interleave_rasters->isChecked();
   config.plane_slicer_generator.generate_extra_rasters = ui_->checkBox_generate_extra_rasters->isChecked();
+  config.plane_slicer_generator.raster_wrt_global_axes = ui_->checkBox_raster_wrt_global->isChecked();
   config.plane_slicer_generator.smooth_rasters = ui_->checkBox_smooth_rasters->isChecked();
   if (ui_->radioButton_mow_style->isChecked())
     config.plane_slicer_generator.raster_style = noether_msgs::ToolPathConfig::MOW_RASTER_STYLE;
@@ -365,8 +398,10 @@ void ToolPathParametersEditorWidget::onGenerateToolPathsComplete(
       opp_msgs::ToolPath tp;
       tp.header.stamp = ros::Time::now();
       tp.process_type.val = qvariant_cast<opp_msgs::ProcessType::_val_type>(ui_->combo_box_process_type->currentData());
+      std::cout << "# tool_paths[0].paths " << res->tool_paths[0].paths.size() << std::endl;
       for (size_t i = 0; i < res->tool_paths[0].paths.size(); i++)
       {
+          std::cout << "# tool_paths[0].paths[" << i << "].segments " << res->tool_paths[0].paths[i].segments.size() << std::endl;
         for (size_t j = 0; j < res->tool_paths[0].paths[i].segments.size(); j++)
         {
           tp.paths.push_back(res->tool_paths[0].paths[i].segments[j]);
@@ -384,18 +419,22 @@ void ToolPathParametersEditorWidget::onGenerateToolPathsComplete(
       tp.params.config.surface_walk_generator.intersection_plane_height =
           ui_->double_spin_box_intersecting_plane_height->value();
 
+      tp.params.config.plane_slicer_generator.raster_spacing = ui_->double_spin_box_line_spacing->value();
       tp.params.config.plane_slicer_generator.point_spacing = ui_->double_spin_box_point_spacing->value();
       tp.params.config.plane_slicer_generator.tool_offset = ui_->double_spin_box_tool_z_offset->value();
-      tp.params.config.plane_slicer_generator.raster_spacing = ui_->double_spin_box_line_spacing->value();
-      tp.params.config.plane_slicer_generator.raster_rot_offset =
-          ui_->double_spin_box_raster_angle->value() * M_PI / 180.0;
       tp.params.config.plane_slicer_generator.min_hole_size = ui_->double_spin_box_min_hole_size->value();
       tp.params.config.plane_slicer_generator.min_segment_size = ui_->double_spin_box_min_segment_length->value();
+      tp.params.config.plane_slicer_generator.raster_rot_offset =
+          ui_->double_spin_box_raster_angle->value() * M_PI / 180.0;
       tp.params.config.plane_slicer_generator.search_radius = ui_->double_spin_box_normal_search_radius->value();
+      tp.params.config.plane_slicer_generator.raster_direction.x = ui_->double_spin_box_raster_direction_x->value();
+      tp.params.config.plane_slicer_generator.raster_direction.y = ui_->double_spin_box_raster_direction_y->value();
+      tp.params.config.plane_slicer_generator.raster_direction.z = ui_->double_spin_box_raster_direction_z->value();
       tp.params.config.plane_slicer_generator.interleave_rasters = ui_->checkBox_interleave_rasters->isChecked();
+      tp.params.config.plane_slicer_generator.smooth_rasters = ui_->checkBox_smooth_rasters->isChecked();
       tp.params.config.plane_slicer_generator.generate_extra_rasters =
           ui_->checkBox_generate_extra_rasters->isChecked();
-      tp.params.config.plane_slicer_generator.smooth_rasters = ui_->checkBox_smooth_rasters->isChecked();
+      tp.params.config.plane_slicer_generator.raster_wrt_global_axes = ui_->checkBox_raster_wrt_global->isChecked();
       if (ui_->radioButton_mow_style->isChecked())
         tp.params.config.plane_slicer_generator.raster_style = noether_msgs::ToolPathConfig::MOW_RASTER_STYLE;
       if (ui_->radioButton_paint_style->isChecked())

@@ -14,7 +14,7 @@
 - git:
     local-name: heat_raster
     uri: 'https://github.com/drchrislewis/heat_raster.git'
-    version: 328797aa5d2c21c3078078f96ea478d870ea55c2
+    version: fb97569c465812afd89637cbd255bdbf746d8492
 
 
 # RViz Tool Cursor
