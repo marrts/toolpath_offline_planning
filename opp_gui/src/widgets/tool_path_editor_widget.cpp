@@ -30,7 +30,7 @@ ToolPathEditorWidget::ToolPathEditorWidget(QWidget* parent,
   : ListEditorWidgetBase(parent), nh_(nh), marker_frame_(marker_frame)
 {
   surface_selector_ = new SurfaceSelectionComboWidget(nh_, selection_world_frame, selection_sensor_frame, this);
-  editor_ = new ToolPathParametersEditorWidget(nh_, this);
+  editor_ = new ToolPathParametersEditorWidget(nh_, selection_world_frame, selection_sensor_frame, this);
 
   // Add the point editor to the parameters frame
   QVBoxLayout* layout = new QVBoxLayout();
@@ -54,10 +54,10 @@ ToolPathEditorWidget::ToolPathEditorWidget(QWidget* parent,
           &ToolPathEditorWidget::newTargetMeshSelected);
   // TODO what to do with a polyline created path
   connect(surface_selector_, &SurfaceSelectionComboWidget::polylinePath, this, &ToolPathEditorWidget::onPolylinePath);
-  connect(surface_selector_,
-          &SurfaceSelectionComboWidget::polylinePathGen,
-          editor_,
-          &ToolPathParametersEditorWidget::onPolylinePathGen);
+//  connect(surface_selector_,
+//          &SurfaceSelectionComboWidget::polylinePathGen,
+//          editor_,
+//          &ToolPathParametersEditorWidget::onPolylinePathGen);
   connect(this, &ToolPathEditorWidget::QWarningBox, this, &ToolPathEditorWidget::onQWarningBox);
 
   // Create a publisher for the tool path marker

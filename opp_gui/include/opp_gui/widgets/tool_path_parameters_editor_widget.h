@@ -27,6 +27,7 @@
 #include <ros/ros.h>
 #include <opp_msgs/ToolPath.h>
 #include <geometry_msgs/PoseArray.h>
+#include <opp_path_selection/path_selection_artist.h>
 
 namespace Ui
 {
@@ -49,7 +50,10 @@ public:
   /**
    * @brief constructor
    **/
-  ToolPathParametersEditorWidget(ros::NodeHandle& nh, QWidget* parent = nullptr);
+  ToolPathParametersEditorWidget(ros::NodeHandle& nh,
+                                 const std::string& selection_world_frame,
+                                 const std::string& selection_sensor_frame,
+                                 QWidget* parent = nullptr);
 
   /**
    * @brief Sets the internal mesh to be used for path planning and a parameter (not intended to
@@ -89,19 +93,36 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 
-  void updateProcessType(const QString&);
+//  void updateProcessType(const QString&);
 
-  void updateDwellTime(int value);
+//  void updateDwellTime(int value);
 
-  void generateToolPath();
+  void generateToolPathPlaneSlicer();
 
-public Q_SLOTS:
+  void generateToolPathSurfaceWalker();
 
-  void onPolylinePath(const std::vector<int> pnt_indices);
+  void generateToolPathHeat();
 
-  void onPolylinePathGen(const std::vector<int> pnt_indices);
+  void generateToolPathHalfEdge();
+
+  void generateToolPathEigenValueEdge();
+
+  void generateToolPathManual();
+
+  void clearPolyline();
+
+//  void applyPolylineAsPath();
+
+//  void applyPolylineforPathGen();
 
 private:
+
+//  void onPolylinePath(const std::vector<int> pnt_indices);
+
+//  void onPolylinePathGen(const std::vector<int> pnt_indices);
+
+  void generateToolPath(const unsigned int tp_type);
+
   void onGenerateToolPathsComplete(const actionlib::SimpleClientGoalState& state,
                                    const noether_msgs::GenerateToolPathsResultConstPtr& res);
 
@@ -119,6 +140,8 @@ private:
   opp_msgs::ToolPath::Ptr tool_path_;
 
   shape_msgs::Mesh::Ptr mesh_;
+
+  opp_path_selection::PathSelectionArtist selector_;
 
   QProgressDialog* progress_dialog_;
 };

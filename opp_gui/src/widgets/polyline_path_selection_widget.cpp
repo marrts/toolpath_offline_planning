@@ -36,8 +36,7 @@ PolylinePathSelectionWidget::PolylinePathSelectionWidget(ros::NodeHandle& nh,
 {
   ui_->setupUi(this);
   connect(ui_->push_button_clear_polyline, &QPushButton::clicked, this, &PolylinePathSelectionWidget::clearPolyline);
-  connect(
-      ui_->push_button_apply_polyline, &QPushButton::clicked, this, &PolylinePathSelectionWidget::applyPolylineAsPath);
+  connect(ui_->push_button_apply_polyline, &QPushButton::clicked, this, &PolylinePathSelectionWidget::applyPolylineAsPath);
   connect(ui_->push_button_htgen_polyline,
           &QPushButton::clicked,
           this,

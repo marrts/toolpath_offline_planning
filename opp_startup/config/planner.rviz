@@ -8,7 +8,7 @@ Panels:
         - /Status1
         - /Marker2
       Splitter Ratio: 0.5
-    Tree Height: 281
+    Tree Height: 596
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -85,12 +85,7 @@ Visualization Manager:
       Marker Topic: /touch_point_marker
       Name: Marker
       Namespaces:
-        a1: true
-        a2: true
-        a3: true
-        v1: true
-        v2: true
-        v3: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -98,7 +93,7 @@ Visualization Manager:
       Marker Topic: /path_markers
       Name: MarkerArray
       Namespaces:
-        {}
+        path_selection: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -151,7 +146,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 6.813051700592041
+      Distance: 1.6412521600723267
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -159,17 +154,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 2.585186243057251
-        Y: 1.5177953243255615
-        Z: 1.053846001625061
+        X: 4.457498550415039
+        Y: 1.4924405813217163
+        Z: 0.7894636392593384
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9397969841957092
+      Pitch: 0.8147971034049988
       Target Frame: <Fixed Frame>
-      Yaw: 5.585251808166504
+      Yaw: 5.850265026092529
     Saved: ~
 Window Geometry:
   Displays:

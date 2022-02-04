@@ -291,7 +291,7 @@ Use the GUI to define the properties of a new part or modify those of an existin
        <item>
         <widget class="QToolBox" name="tool_box_job_editor">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_load_job">
           <property name="geometry">
@@ -389,8 +389,8 @@ Use the GUI to define the properties of a new part or modify those of an existin
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>100</width>
-            <height>30</height>
+            <width>714</width>
+            <height>905</height>
            </rect>
           </property>
           <attribute name="label">
