@@ -7,8 +7,8 @@
 # Noether 
 - git:
     local-name: noether
-    uri: 'https://github.com/drchrislewis/noether.git'
-    version: b5f33c2d8cafdb73f6e7df4ad01ddab5affea518
+    uri: 'https://github.com/DavidMerzJr/noether.git'
+    version: feature/axis-aligned-bounding-box
 
 # heat_raster current master
 - git:
