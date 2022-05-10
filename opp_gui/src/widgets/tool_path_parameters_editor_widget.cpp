@@ -167,6 +167,8 @@ void ToolPathParametersEditorWidget::setToolPathConfig(const noether_msgs::ToolP
       ui_->radioButton_param_spline_he->setChecked(true);
   ui_->double_spin_box_point_spacing_he->setValue(config.halfedge_generator.point_dist);
   ui_->checkBox_split_by_axes_he->setChecked(config.halfedge_generator.split_by_axes);
+  ui_->double_spin_box_min_pen_size_he->setValue(config.halfedge_generator.min_allowed_obstacle_width);
+  ui_->double_spin_box_min_skip_amount_he->setValue(config.halfedge_generator.min_skip_amount);
 
   ui_->double_spin_box_octree_res_ev->setValue(config.eigen_value_generator.octree_res);
   ui_->double_spin_box_search_radius_ev->setValue(config.eigen_value_generator.search_radius);
@@ -244,6 +246,8 @@ noether_msgs::ToolPathConfig ToolPathParametersEditorWidget::getToolPathConfig()
     config.halfedge_generator.point_spacing_method = noether_msgs::HalfedgeEdgeGeneratorConfig::POINT_SPACING_METHOD_PARAMETRIC_SPLINE;
   config.halfedge_generator.point_dist = ui_->double_spin_box_point_spacing_he->value();
   config.halfedge_generator.split_by_axes = ui_->checkBox_split_by_axes_he->isChecked();
+  config.halfedge_generator.min_allowed_obstacle_width = ui_->double_spin_box_min_pen_size_he->value();
+  config.halfedge_generator.min_skip_amount = ui_->double_spin_box_min_skip_amount_he->value();
 
   config.eigen_value_generator.octree_res = ui_->double_spin_box_octree_res_ev->value();
   config.eigen_value_generator.search_radius = ui_->double_spin_box_search_radius_ev->value();

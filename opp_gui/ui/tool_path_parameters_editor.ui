@@ -36,7 +36,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <property name="tabBarAutoHide">
       <bool>true</bool>
@@ -1287,7 +1287,7 @@
        <property name="geometry">
         <rect>
          <x>320</x>
-         <y>157</y>
+         <y>242</y>
          <width>121</width>
          <height>23</height>
         </rect>
@@ -1341,7 +1341,7 @@
        <property name="geometry">
         <rect>
          <x>40</x>
-         <y>157</y>
+         <y>242</y>
          <width>71</width>
          <height>23</height>
         </rect>
@@ -1380,7 +1380,7 @@
        <property name="geometry">
         <rect>
          <x>13</x>
-         <y>275</y>
+         <y>360</y>
          <width>202</width>
          <height>25</height>
         </rect>
@@ -1393,7 +1393,7 @@
        <property name="geometry">
         <rect>
          <x>150</x>
-         <y>157</y>
+         <y>242</y>
          <width>151</width>
          <height>23</height>
         </rect>
@@ -1406,7 +1406,7 @@
        <property name="geometry">
         <rect>
          <x>13</x>
-         <y>195</y>
+         <y>280</y>
          <width>225</width>
          <height>23</height>
         </rect>
@@ -1435,7 +1435,7 @@
        <property name="geometry">
         <rect>
          <x>190</x>
-         <y>135</y>
+         <y>220</y>
          <width>151</width>
          <height>20</height>
         </rect>
@@ -1470,7 +1470,7 @@
        <property name="geometry">
         <rect>
          <x>13</x>
-         <y>225</y>
+         <y>310</y>
          <width>202</width>
          <height>23</height>
         </rect>
@@ -1533,7 +1533,7 @@
        <property name="geometry">
         <rect>
          <x>470</x>
-         <y>157</y>
+         <y>242</y>
          <width>141</width>
          <height>23</height>
         </rect>
@@ -1543,6 +1543,79 @@
        </property>
        <property name="checked">
         <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="double_spin_box_min_pen_size_he">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>130</y>
+         <width>100</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
+       <property name="singleStep">
+        <double>0.010000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_min_pen_size_he">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>130</y>
+         <width>181</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string extracomment="The minimum surface hole size for which the tool path planner will break a segment (in meters)"/>
+       </property>
+       <property name="text">
+        <string>Min. Obstacle Size (m)</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_min_skip_amount_he">
+       <property name="geometry">
+        <rect>
+         <x>13</x>
+         <y>162</y>
+         <width>271</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string extracomment="Minimum length of a toolpath segment (in meters)"/>
+       </property>
+       <property name="text">
+        <string>Min. Number of Points Obstacle Skip</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="double_spin_box_min_skip_amount_he">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>162</y>
+         <width>100</width>
+         <height>26</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </widget>

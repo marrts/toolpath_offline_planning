@@ -68,6 +68,8 @@ struct convert<noether_msgs::HalfedgeEdgeGeneratorConfig>
     node["normal_influence_weight"] = rhs.normal_influence_weight;
     node["point_spacing_method"] = rhs.point_spacing_method;
     node["point_dist"] = rhs.point_dist;
+    node["min_allowed_obstacle_width"] = rhs.min_allowed_obstacle_width;
+    node["min_skip_amount"] = rhs.min_skip_amount;
 //    node["max_segment_length"] = rhs.max_segment_length;
     return node;
   }
@@ -86,6 +88,8 @@ struct convert<noether_msgs::HalfedgeEdgeGeneratorConfig>
     rhs.normal_influence_weight = node["normal_influence_weight"].as<decltype(rhs.normal_influence_weight)>();
     rhs.point_spacing_method = node["point_spacing_method"].as<decltype(rhs.point_spacing_method)>();
     rhs.point_dist = node["point_dist"].as<decltype(rhs.point_dist)>();
+    rhs.min_allowed_obstacle_width = node["min_allowed_obstacle_width"].as<decltype(rhs.point_dist)>();
+    rhs.min_skip_amount = node["min_skip_amount"].as<decltype(rhs.min_skip_amount)>();
 //    rhs.max_segment_length = node["max_segment_length"].as<decltype(rhs.max_segment_length)>();
     return true;
   }
